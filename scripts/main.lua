@@ -17,7 +17,7 @@ function _update()
     player_pos=player_pos+1
   end
   
-  if btn(❎) then
+  if btnp(❎) then
     gravity=gravity*-1
   end
 end
