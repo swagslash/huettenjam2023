@@ -1,6 +1,6 @@
 # Hüttenjam Game 2023
 
-![]./screenshot.png)
+![](./screenshot.png)
 
 -----
 
