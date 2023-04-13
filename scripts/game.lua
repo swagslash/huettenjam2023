@@ -6,12 +6,12 @@ fall_direction=1 -- 1 down, 0 up
 last_time_grounded=0 -- timestamp after player left the ground
 is_facing_down=false
 
-local score = 0
-
+-- this is basically _init
 function open_game() 
-    score = 0
     act_update = update_game
     act_draw = draw_game
+
+    last_time_grounded=t()-0.4
     camera(0, 0)
 end
 
