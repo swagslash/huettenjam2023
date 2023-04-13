@@ -6,6 +6,9 @@ __lua__
 
 -- game logic
 #include scripts/main.lua
+#include scripts/menu.lua
+#include scripts/game.lua
+#include scripts/utils.lua
 
 __gfx__
 88eeeee8000000000044440000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
