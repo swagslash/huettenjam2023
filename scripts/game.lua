@@ -23,16 +23,16 @@ all_flags = { solid_flag, deadly_flag }
 map_level_height = 16 -- portion of the map to load
 map_y_offset = 0 -- y-offset of the level | 1 level = 16 blocks
 map_scroll_x_offset = 0 -- x-offset of the map to draw
-map_scroll_speed = 1 -- speed of the world map scrolling
+map_scroll_speed = 0.7 -- speed of the world map scrolling
 gravity = 4 -- gravity
-initial_fall_speed = 0.4 -- initial velocity (time player is already falling)
+initial_fall_speed = 0.3 -- initial velocity (time player is already falling)
 
 -- draw offsets for the player and map to position it in the middle of the screen
 global_draw_offset_x = 0
 global_draw_offset_y = 0
 game_over_frames = 120
 
-level_finished_offset = 100 -- block offset when the level finishes
+level_finished_offset = 124 -- block offset when the level finishes
 level = 0
 final_level = 1
 
