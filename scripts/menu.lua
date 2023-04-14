@@ -1,4 +1,5 @@
 
+
 local title_y = 32
 local selections = {
     "play",
@@ -9,6 +10,8 @@ local cur_sel = 1
 function open_menu() 
     act_update = update_menu
     act_draw = draw_menu
+    music(-1, 300)
+    music(6)
 
     for x = 1, 60 do
         init_snowflake(x)

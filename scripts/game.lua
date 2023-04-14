@@ -1,4 +1,4 @@
-music(2)
+
 
 player_start_x = 3
 player_start_y = 64
@@ -49,6 +49,8 @@ current_jump_buffer = 0 -- if >0: player pressed x
 function open_game(next_level)
     -- reload full map as collectibles get removed
     reload(0x1000, 0x1000, 0x2000)
+
+    music(2)
 
     act_update = update_game
     act_draw = draw_game
