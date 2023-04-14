@@ -8,13 +8,19 @@ player = {
     last_time_grounded = 0
 }
 
+score = 0
+
 player_sprite = 2 -- index of the player-sprite
 solid_flag = 1 -- flag of solid blocks
 deadly_flag = 2 -- flag of deadly blocks
+item_flag = 3 -- flag of collectible items
+all_flags = { solid_flag, deadly_flag }
 
 map_x_offset = 0 -- x-offset of the map to draw
 map_y_offset = 0 -- y-offset of the map to draw
-map_scroll_speed = 0.1
+map_scroll_speed = 1 -- speed of the world map scrolling
+gravity = 4 -- gravity
+initial_fall_speed = 0.4 -- initial velocity (time player is already falling)
 
 map_level_height = 16 -- portion of the map to load
 
@@ -43,7 +49,9 @@ function open_game()
     player.y = 60
     player.fall_direction = 1
     player.can_toggle = true
-    player.last_time_grounded = t()
+    player.last_time_grounded = t() - initial_fall_speed
+
+    score = 0
 end
 
 function update_game()
@@ -71,6 +79,8 @@ function draw_game()
     local is_facing_down = player.fall_direction < 0
     local player_sprite = player.can_toggle and 3 or 4
     spr(player_sprite, player.x + global_draw_offset_x, player.y + global_draw_offset_y, 1, 1, false, is_facing_down)
+    -- draw score
+    print('score ' .. score, 0, 120, 12)
 end
 
 function game_over()
@@ -81,7 +91,7 @@ function toggle_gravity()
     -- reverse gravity
     player.fall_direction = player.fall_direction * -1
     -- timestamp since last grounded
-    player.last_time_grounded = t()
+    player.last_time_grounded = t() - initial_fall_speed
     -- can toggle gravity
     player.can_toggle = false
 end
@@ -89,19 +99,22 @@ end
 function move_player()
     local time_falling = t() - player.last_time_grounded
     -- h = 1/2 * gravity * time^2
-    local y_offset = 1 / 2 * 2 * time_falling * time_falling * player.fall_direction
+    local y_offset = 1 / 2 * gravity * time_falling * time_falling * player.fall_direction
 
     local y_collision = collides_y(y_offset)
-    if y_collision == solid_flag then
+    if collides_with(y_collision, solid_flag) then
         player.can_toggle = true
-        player.last_time_grounded = t()
-    elseif y_collision == deadly_flag then
+        -- last time grounded set in toggle_gravity
+    elseif collides_with(y_collision, deadly_flag) then
         game_over()
     else
         player.y = player.y + y_offset
     end
 
-    if (collides_x()) then
+    collides_item()
+
+    local x_collision = collides_x();
+    if collides_with(x_collision, solid_flag) then
         game_over()
     end
 end
@@ -118,7 +131,7 @@ function collides_y(offset_y)
     add(positions, { x = p_x_left, y = p_y_bottom })
     add(positions, { x = p_x_right, y = p_y_bottom })
 
-    return collides(positions)
+    return collides(positions, all_flags)
 end
 
 function collides_x()
@@ -130,10 +143,28 @@ function collides_x()
     add(positions, { x = p_x_right, y = p_y_top })
     add(positions, { x = p_x_right, y = p_y_bottom })
 
-    return collides(positions)
+    return collides(positions, all_flags)
 end
 
-function collides (positions)
+
+function collides_item ()
+    local positions = {}
+    add(positions, {x = player.x, y = player.y})
+    add(positions, {x = player.x + 7, y = player.y})
+    add(positions, {x = player.x, y = player.y + 7})
+    add(positions, {x = player.x + 7, y = player.y + 7})
+
+    -- check if already collided
+    local item_collision = collides(positions, {item_flag})
+    for c in all(item_collision) do
+        score = score + 1
+        mset(c.x, c.y, 0)
+    end
+end
+
+function collides (positions, flags)
+    local collisions = {}
+
     for c in all(positions) do
         -- map player coordinates to world/map coordinates (pixel --> sprite)
         local world_x = (c.x - map_x_offset) / 8
@@ -141,10 +172,21 @@ function collides (positions)
         -- get map tile
         local sprite = mget(world_x, world_y)
         -- check if sprite is solid
-        if fget(sprite, solid_flag) then
-            return solid_flag
-        elseif fget(sprite, deadly_flag) then
-            return deadly_flag
+
+        for flag in all(flags) do
+            if fget(sprite, flag) then
+                add(collisions, {flag = flag, x = world_x, y = world_y })
+            end
+        end
+    end
+
+    return collisions
+end
+
+function collides_with(collisions, flag)
+    for c in all(collisions) do
+        if c.flag == flag then
+            return true
         end
     end
 
