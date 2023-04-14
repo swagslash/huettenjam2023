@@ -1,3 +1,9 @@
+highscores={
+	0,0,0,0,0,0,0,0,0,0
+}
+
+last_highscore = -1
+
 function open_highscore()
     get_highscore()
     act_update = update_hs
@@ -5,7 +11,9 @@ function open_highscore()
 end
 
 function update_hs()
-    if btnp(🅾️) then open_menu() end
+    if btnp(🅾️) or btnp(❎) then
+        open_menu()
+    end
 end
 
 function draw_hs()
@@ -19,12 +27,6 @@ function draw_hs()
 
     print_center("back to menu 🅾️", 120, 12);
 end
-
-highscores={
-	0,0,0,0,0,0,0,0,0,0
-}
-
-last_highscore = -1
 
 -- loads all hs from storage
 function get_highscore()
@@ -52,12 +54,15 @@ end
 
 function add_highscore(score)
 	last_highscore = score
+	local placed = -1
 	for i=1, #highscores do
 		local current_score = highscores[i]
 		if score > highscores[i] then
 			highscores[i] = score
 			score = current_score
+			placed = i
 		end
 	end
 	save_highscore()
+	return placed
 end

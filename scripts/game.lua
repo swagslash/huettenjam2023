@@ -38,7 +38,7 @@ global_draw_offset_x = 0
 global_draw_offset_y = 0
 game_over_frames = 120
 
-level_finished_offset = 124 -- block offset when the level finishes
+level_finished_offset = 20 -- block offset when the level finishes
 level = 0
 final_level = 1
 
@@ -154,15 +154,16 @@ function draw_game()
         draw_game_over()
     elseif player.is_finished then
         draw_level_finished()
-    else
+    end
+    -- else
         -- draw score
         rect(1, 118, 39, 126, 1)
         rectfill(2, 119, 38, 125, 14)
-        print('score ' .. score, 3, 120, 1)
+        print('total ' .. score, 3, 120, 1)
         rect(89, 118, 126, 126, 1)
         rectfill(90, 119, 125, 125, 14)
         print('level ' .. level + 1, 98, 120, 1)
-    end
+    -- end
     -- print(current_x)
         -- print fps
     -- print(stat(7))

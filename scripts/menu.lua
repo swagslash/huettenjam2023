@@ -7,7 +7,8 @@ local selections = {
 }
 local cur_sel = 1
 
-function open_menu() 
+function open_menu()
+    score = 0
     act_update = update_menu
     act_draw = draw_menu
     music(-1, 300)
