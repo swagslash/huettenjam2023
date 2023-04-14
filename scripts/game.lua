@@ -32,7 +32,7 @@ global_draw_offset_x = 0
 global_draw_offset_y = 0
 game_over_frames = 120
 
-level_finished_offset = 124 -- block offset when the level finishes
+level_finished_offset = 14 -- block offset when the level finishes
 level = 0
 final_level = 1
 
