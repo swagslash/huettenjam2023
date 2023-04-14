@@ -2,8 +2,11 @@ function game_over()
     player.is_dead = true
 end
 
+framespassed = 120
+
 function update_game_over()
     if (player.is_dead) then
+        framespassed = 120 - game_over_frames
         if btnp(❎) then
             open_game()
         end
@@ -19,6 +22,9 @@ end
 function draw_game_over()
     if (game_over_frames > 0) then
         game_over_frames -= 1
+        
+        spr(6, player.x + (sin(t() * 2)) * 3, player.y - framespassed)
+        
         return
     end
 
