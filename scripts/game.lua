@@ -74,7 +74,7 @@ function open_game(next_level)
         next_level = 0
         lvl_scores = {}
         add(lvl_scores, { max = 24, current = 0})
-        add(lvl_scores, { max = 10, current = 0})
+        add(lvl_scores, { max = 22, current = 0})
     else
         local sum = 0
         for i=1, level + 1 do

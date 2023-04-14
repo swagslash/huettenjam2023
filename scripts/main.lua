@@ -1,8 +1,9 @@
 act_update = nil
 act_draw = nil
-game_title = "swaglash_gravity_v0"
+game_title = "swaglash_gravity"
+version = "v0.1"
 
-cartdata(game_title)
+cartdata(game_title.."_"..version)
 
 function _init() 
     -- set black to not transparent
