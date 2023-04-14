@@ -36,6 +36,9 @@ level_finished_offset = 124 -- block offset when the level finishes
 level = 0
 final_level = 1
 
+max_jump = 5 -- frames the jump can register
+current_jump_buffer = 0 -- if >0: player pressed x
+
 -- this is basically _init
 function open_game(next_level)
     -- reload full map as collectibles get removed
@@ -90,8 +93,16 @@ function update_game()
     -- scroll map to the left
     map_scroll_x_offset = map_scroll_x_offset - map_scroll_speed
 
-    if btnp(❎) and player.can_toggle then
+    if btnp(❎) then
+        current_jump_buffer = max_jump
+    end
+
+    if current_jump_buffer > 0 and player.can_toggle then
         toggle_gravity()
+    end
+
+    if current_jump_buffer > 0 then
+        current_jump_buffer = current_jump_buffer - 1
     end
 
     move_player()
