@@ -14,7 +14,7 @@ end
 function update_menu()
     if btnp(❎) then
         if cur_sel == 1 then
-            open_game(0)
+            open_game(1)
         end
 
         if cur_sel == 2 then
