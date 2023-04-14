@@ -22,8 +22,14 @@ function update_menu()
         end
     end
     
-    if btnp(⬆️) then cur_sel = wrap_int(cur_sel, 1, 2, 1) end
-    if btnp(⬇️) then cur_sel = wrap_int(cur_sel, 1, 2, -1) end
+    if btnp(⬆️) then
+        cur_sel = wrap_int(cur_sel, 1, 2, 1)
+        sfx(9)
+    end
+    if btnp(⬇️) then
+        cur_sel = wrap_int(cur_sel, 1, 2, -1)
+        sfx(9)
+    end
 end
 
 function draw_menu()
