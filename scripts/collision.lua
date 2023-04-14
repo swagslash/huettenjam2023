@@ -41,8 +41,10 @@ function collides_item ()
     end
 
     c = item_collision[1]
+    sfx(6)
     score = score + 1
     mset(c.x, c.y, 0)
+
 end
 
 function collides (positions, flags)

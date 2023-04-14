@@ -1,4 +1,5 @@
 function game_over()
+    sfx(7) -- death sfx
     player.is_dead = true
 end
 

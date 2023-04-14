@@ -126,6 +126,7 @@ function draw_game()
 end
 
 function toggle_gravity()
+    sfx(8)
     -- reverse gravity
     player.fall_direction = player.fall_direction * -1
     -- timestamp since last grounded
