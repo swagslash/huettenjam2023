@@ -59,6 +59,7 @@ function open_game(next_level)
     player.is_finished = false
 
     map_scroll_x_offset = 0
+    game_over_frames = 120
     map_y_offset = level * map_level_height
 
     if next_level == level then
@@ -100,8 +101,7 @@ end
 function draw_game()
     -- clear screen
     cls(1)
-    -- print fps
-    print(stat(7))
+    -- print(stat(7))
 
     -- draw snow in background
     draw_snow()
@@ -123,6 +123,9 @@ function draw_game()
         print('score ' .. score, 0, 120, 12)
         print('level ' .. level + 1, 100, 120, 12)
     end
+    -- print(current_x)
+        -- print fps
+    -- print(stat(7))
 end
 
 function toggle_gravity()
