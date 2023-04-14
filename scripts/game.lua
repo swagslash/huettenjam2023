@@ -1,8 +1,10 @@
 music(0)
 
+player_start_x = 16
+player_start_y = 64
 player = {
-    x = 16,
-    y = 60,
+    x = player_start_x,
+    y = player_start_y,
     fall_direction = 1,  -- 1 down, -1 up
     can_toggle = false,
     last_time_grounded = 0,
@@ -10,6 +12,7 @@ player = {
 }
 
 score = 0
+level = 0
 
 player_sprite = 2 -- index of the player-sprite
 solid_flag = 1 -- flag of solid blocks
@@ -26,14 +29,15 @@ initial_fall_speed = 0.4 -- initial velocity (time player is already falling)
 map_level_height = 16 -- portion of the map to load
 
 -- draw offsets for the player and map to position it in the middle of the screen
-global_draw_offset_x = 0;
-global_draw_offset_y = 0;
+global_draw_offset_x = 0
+global_draw_offset_y = 0
 game_over_frames = 120
+
+level_finished_offset = 120
 
 
 -- this is basically _init
 function open_game()
-    game_over_frames = 120
     act_update = update_game
     act_draw = draw_game
 
@@ -43,12 +47,14 @@ function open_game()
         init_snowflake(x)
     end
 
-    map_x_offset = 0
     player.y = 60
     player.fall_direction = 1
-    player.can_toggle = true
+    player.can_toggle = false
     player.last_time_grounded = t() - initial_fall_speed
     player.is_dead = false
+
+    map_x_offset = 0
+    map_y_offset = level * map_level_height
 
     score = 0
 end
@@ -57,6 +63,11 @@ function update_game()
     update_snow()
 
     if update_game_over() then
+        return
+    end
+
+    if has_finished() then
+        next_level()
         return
     end
 
@@ -79,7 +90,7 @@ function draw_game()
     -- draw snow in background
     draw_snow()
     -- draw map
-    map(0, 0, map_x_offset + global_draw_offset_x, map_y_offset + global_draw_offset_y, 128, map_level_height)
+    map(0, 0, map_x_offset + global_draw_offset_x + map_level_height * level, map_y_offset + global_draw_offset_y, 128, map_level_height)
     -- draw player sprite
     local is_facing_down = player.fall_direction < 0
     local player_sprite = player.can_toggle and 3 or 4
@@ -113,6 +124,7 @@ function move_player()
     if collides_with(y_collision, solid_flag) then
         player.can_toggle = true
         -- last time grounded set in toggle_gravity
+        player.last_time_grounded = t() - initial_fall_speed
     elseif collides_with(y_collision, deadly_flag) then
         game_over()
     else
@@ -125,6 +137,15 @@ function move_player()
     if collides_with(x_collision, solid_flag) then
         game_over()
     end
+end
+
+function has_finished()
+    local map_tiles_passed = map_x_offset / 8
+    return (map_tiles_passed * -1) > level_finished_offset
+end
+
+function next_level()
+    -- advance to next level
 end
 
 function collides_y(offset_y)
