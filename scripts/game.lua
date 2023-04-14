@@ -9,7 +9,8 @@ player = {
 }
 
 player_sprite = 2 -- index of the player-sprite
-solid_flag = 0 -- flag of solid blocks
+solid_flag = 1 -- flag of solid blocks
+deadly_flag = 2 -- flag of deadly blocks
 
 map_x_offset = 0 -- x-offset of the map to draw
 map_y_offset = 0 -- y-offset of the map to draw
@@ -73,7 +74,7 @@ function draw_game()
 end
 
 function game_over()
-
+    open_game()
 end
 
 function toggle_gravity()
@@ -90,15 +91,18 @@ function move_player()
     -- h = 1/2 * gravity * time^2
     local y_offset = 1 / 2 * 2 * time_falling * time_falling * player.fall_direction
 
-    if collides_y(y_offset) then
+    local y_collision = collides_y(y_offset)
+    if y_collision == solid_flag then
         player.can_toggle = true
         player.last_time_grounded = t()
+    elseif y_collision == deadly_flag then
+        game_over()
     else
         player.y = player.y + y_offset
     end
 
     if (collides_x()) then
-        open_game()
+        game_over()
     end
 end
 
@@ -137,8 +141,10 @@ function collides (positions)
         -- get map tile
         local sprite = mget(world_x, world_y)
         -- check if sprite is solid
-        if (fget(sprite, solid_flag)) then
-            return true
+        if fget(sprite, solid_flag) then
+            return solid_flag
+        elseif fget(sprite, deadly_flag) then
+            return deadly_flag
         end
     end
 
