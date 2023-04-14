@@ -1,6 +1,12 @@
 function game_over()
     sfx(7) -- death sfx
     player.is_dead = true
+
+    if level > 0 then
+        -- just deduct from previous level
+        local last_lvl_score = lvl_scores[level]
+        last_lvl_score.current = max(0, last_lvl_score.current - 3)
+    end
 end
 
 framespassed = 120
@@ -34,6 +40,8 @@ function draw_game_over()
     rect(19, 31, 32 + 64 + 13, 32 + 61, 12)
     rectfill(20, 32, 32 + 64 + 12, 32 + 60, 7)
     outline_print_center("game over", 40, 7, 1, 2)
-    print_center("you suck.", 60)
+    if level > 0 then
+        print_center("- 3 pts", 60)
+    end
     print_center("press ❎ to try again", 80)
 end
