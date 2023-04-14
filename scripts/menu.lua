@@ -20,11 +20,11 @@ function update_menu()
 
     if btnp(❎) then
         if cur_sel == 1 then
-            open_game(1)
+            open_game(0)
         end
 
         if cur_sel == 2 then
-            //open_highscore()
+            open_highscore()
         end
     end
     
