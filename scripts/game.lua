@@ -1,4 +1,4 @@
-music(0)
+music(2)
 
 player_start_x = 16
 player_start_y = 64
