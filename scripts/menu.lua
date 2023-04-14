@@ -12,9 +12,9 @@ function open_menu()
 end
 
 function update_menu()
-    if btn(❎) then
+    if btnp(❎) then
         if cur_sel == 1 then
-            open_game()
+            open_game(0)
         end
 
         if cur_sel == 2 then

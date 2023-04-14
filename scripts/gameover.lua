@@ -8,7 +8,7 @@ function update_game_over()
     if (player.is_dead) then
         framespassed = 120 - game_over_frames
         if btnp(❎) then
-            open_game()
+            open_game(0)
         end
         if btnp(🅾️) then
             open_menu()

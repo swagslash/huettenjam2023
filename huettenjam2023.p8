@@ -9,8 +9,10 @@ __lua__
 #include scripts/menu.lua
 #include scripts/game.lua
 #include scripts/gameover.lua
+#include scripts/nextlevel.lua
 #include scripts/snow.lua
 #include scripts/utils.lua
+#include scripts/collision.lua
 
 __gfx__
 88eeeee8ffffffffff4444fffbbbbbbffbbbbbbffbbbbfffff6666ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
