@@ -62,10 +62,12 @@ function collides (positions, flags)
     return collisions
 end
 
-function collides_with(collisions, flag)
+function collides_with(collisions, flags)
     for c in all(collisions) do
-        if c.flag == flag then
-            return true
+        for f in all(flags) do
+            if c.flag == f then
+                return true
+            end
         end
     end
 

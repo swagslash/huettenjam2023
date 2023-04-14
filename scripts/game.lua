@@ -137,11 +137,11 @@ function move_player()
     local y_offset = 1 / 2 * gravity * time_falling * time_falling * player.fall_direction
 
     local y_collision = collides_y(y_offset)
-    if collides_with(y_collision, solid_flag) then
+    if collides_with(y_collision, {solid_flag}) then
         player.can_toggle = true
         -- last time grounded set in toggle_gravity
         player.last_time_grounded = t() - initial_fall_speed
-    elseif collides_with(y_collision, deadly_flag) then
+    elseif collides_with(y_collision, {deadly_flag}) then
         game_over()
     else
         player.y = player.y + y_offset
@@ -150,7 +150,7 @@ function move_player()
     collides_item()
 
     local x_collision = collides_x();
-    if collides_with(x_collision, solid_flag) then
+    if collides_with(x_collision, {solid_flag, deadly_flag}) then
         game_over()
     end
 end
