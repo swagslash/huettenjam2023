@@ -1,6 +1,6 @@
 music(2)
 
-player_start_x = 16
+player_start_x = 3
 player_start_y = 64
 player = {
     x = player_start_x,
