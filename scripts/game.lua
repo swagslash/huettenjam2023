@@ -28,6 +28,11 @@ function open_game()
 
     camera(0, 0)
 
+    -- set black to not transparent
+    -- and caucasian male skin tone to transparent
+    palt(0, false)
+    palt(15, true)
+
     snow = {}
     for x = 1, 60 do
         init_snowflake(x)
@@ -63,6 +68,7 @@ function draw_game()
     map(0, 0, map_x_offset + global_draw_offset_x, map_y_offset + global_draw_offset_y, 128, map_level_height)
     -- draw player sprite
     local is_facing_down = player.fall_direction < 0
+    local player_sprite = player.can_toggle and 3 or 4
     spr(player_sprite, player.x + global_draw_offset_x, player.y + global_draw_offset_y, 1, 1, false, is_facing_down)
 end
 
@@ -74,7 +80,7 @@ function toggle_gravity()
     -- reverse gravity
     player.fall_direction = player.fall_direction * -1
     -- timestamp since last grounded
-    player.last_time_grounded = t() - 0.4
+    player.last_time_grounded = t()
     -- can toggle gravity
     player.can_toggle = false
 end
