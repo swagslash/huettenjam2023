@@ -15,7 +15,7 @@ function update_snow()
     for x=1,#snow do
         local drop=snow[x]
        
-        drop.y+=drop.gravity * fall_direction
+        drop.y+=drop.gravity * player.fall_direction
         drop.x+=drop.lr
 
         drop.y = drop.y % 128
