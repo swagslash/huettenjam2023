@@ -38,7 +38,7 @@ global_draw_offset_x = 0
 global_draw_offset_y = 0
 game_over_frames = 120
 
-level_finished_offset = 20 -- block offset when the level finishes
+level_finished_offset = 124 -- block offset when the level finishes
 level = 0
 final_level = 1
 
@@ -69,12 +69,19 @@ function open_game(next_level)
     game_over_frames = 120
     map_y_offset = level * map_level_height
 
-    if next_level == level then
+    if next_level == -1 then
         score = 0
+        next_level = 0
+        lvl_scores = {}
+        add(lvl_scores, { max = 24, current = 0})
+        add(lvl_scores, { max = 10, current = 0})
+    else
+        local sum = 0
+        for i=1, level + 1 do
+            sum += lvl_scores[i].current
+        end
+        score = sum
     end
-    lvl_scores = {}
-    add(lvl_scores, { max = 24, current = 0})
-    add(lvl_scores, { max = 10, current = 0})
 
     level = next_level
 
