@@ -1,7 +1,7 @@
 act_update = nil
 act_draw = nil
 game_title = "swaglash_gravity"
-version = "v0.1"
+version = "v0_1"
 
 cartdata(game_title.."_"..version)
 
