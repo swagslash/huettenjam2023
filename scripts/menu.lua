@@ -24,7 +24,7 @@ function update_menu()
         end
 
         if cur_sel == 2 then
-            //open_highscore()
+            open_highscore()
         end
     end
     
