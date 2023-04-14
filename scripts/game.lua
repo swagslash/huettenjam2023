@@ -1,16 +1,25 @@
 music(0)
 
-player = {}
-player.y = 60
-player.x = 16
-player.w = 8 -- width
-player.h = 8 -- height
-player.fall_direction = 1 -- 1 down, -1 up
-player.can_toggle = false
-player.last_time_grounded = 0
+player = {
+    x = 16,
+    y = 60,
+    fall_direction = 1,  -- 1 down, -1 up
+    can_toggle = false,
+    last_time_grounded = 0
+}
 
-map_x_offset = 0
-scroll_speed = 0.1
+player_sprite = 2 -- index of the player-sprite
+solid_flag = 0 -- flag of solid blocks
+
+map_x_offset = 0 -- x-offset of the map to draw
+map_y_offset = 0 -- y-offset of the map to draw
+map_scroll_speed = 0.1
+
+map_level_height = 16 -- portion of the map to load
+
+-- draw offsets for the player and map to position it in the middle of the screen
+global_draw_offset_x = 0;
+global_draw_offset_y = 0;
 
 -- this is basically _init
 function open_game()
@@ -34,7 +43,7 @@ end
 function update_game()
     update_snow()
     -- scroll map to the left
-    map_x_offset = map_x_offset - scroll_speed
+    map_x_offset = map_x_offset - map_scroll_speed
 
     if btnp(❎) and player.can_toggle then
         toggle_gravity()
@@ -51,10 +60,10 @@ function draw_game()
     -- draw snow in background
     draw_snow()
     -- draw map
-    map(0, 0, map_x_offset, 0, 32, 12)
+    map(0, 0, map_x_offset + global_draw_offset_x, map_y_offset + global_draw_offset_y, 128, map_level_height)
     -- draw player sprite
     local is_facing_down = player.fall_direction < 0
-    spr(2, player.x, player.y, 1, 1, false, is_facing_down)
+    spr(player_sprite, player.x + global_draw_offset_x, player.y + global_draw_offset_y, 1, 1, false, is_facing_down)
 end
 
 function game_over()
@@ -75,8 +84,6 @@ function move_player()
     -- h = 1/2 * gravity * time^2
     local y_offset = 1 / 2 * 2 * time_falling * time_falling * player.fall_direction
 
-
-
     if collides_y(y_offset) then
         player.can_toggle = true
         player.last_time_grounded = t()
@@ -90,7 +97,7 @@ function move_player()
 end
 
 function collides_y(offset_y)
-    local p_x_left = player.x + scroll_speed
+    local p_x_left = player.x + map_scroll_speed
     local p_x_right = p_x_left + 7
     local p_y_top = player.y + offset_y
     local p_y_bottom = p_y_top + 7
@@ -105,7 +112,7 @@ function collides_y(offset_y)
 end
 
 function collides_x()
-    local p_x_right = player.x + scroll_speed + 7
+    local p_x_right = player.x + map_scroll_speed + 7
     local p_y_top = player.y
     local p_y_bottom = p_y_top + 7
 
@@ -119,12 +126,12 @@ end
 function collides (positions)
     for c in all(positions) do
         -- map player coordinates to world/map coordinates (pixel --> sprite)
-        local world_x = (c.x - map_x_offset) / 8;
-        local world_y = c.y / 8;
+        local world_x = (c.x - map_x_offset) / 8
+        local world_y = (c.y - map_y_offset) / 8
         -- get map tile
         local sprite = mget(world_x, world_y)
         -- check if sprite is solid
-        if (fget(sprite, 0)) then
+        if (fget(sprite, solid_flag)) then
             return true
         end
     end
