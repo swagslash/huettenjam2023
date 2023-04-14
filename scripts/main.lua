@@ -8,7 +8,7 @@ function _init()
     open_menu()
 end
 
-function _update()
+function _update60()
     act_update()
 end
 

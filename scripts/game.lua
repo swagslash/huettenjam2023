@@ -8,30 +8,40 @@ is_facing_down=false
 
 -- this is basically _init
 function open_game() 
+    
     act_update = update_game
     act_draw = draw_game
 
     last_time_grounded=t()-0.4
     camera(0, 0)
+
+    snow={}
+    for x=1,60 do
+        init_snowflake(x)
+    end
 end
 
 function update_game() 
+    update_snow()
     map_pos=map_pos-1
   
-  if btnp(❎) then
-    fall_direction=fall_direction*-1
-    is_facing_down=fall_direction<0
-    last_time_grounded=t()-0.4
-  end
-  
-  time_falling=t()-last_time_grounded
-  -- h = 1/2 * gravity * time^2
-  offset = 1/2*7*time_falling*time_falling*fall_direction
-  player_pos=player_pos+offset
+    if btnp(❎) then
+        fall_direction=fall_direction*-1
+        is_facing_down=fall_direction<0
+        last_time_grounded=t()-0.4
+    end
+    
+    time_falling=t()-last_time_grounded
+    -- h = 1/2 * gravity * time^2
+    offset = 1/2*7*time_falling*time_falling*fall_direction
+
+    player_pos=player_pos+offset
 end
 
 function draw_game() 
     cls()
-  map(0,0,map_pos,0,32,12)
-  spr(2, 16, player_pos,1,1,false,is_facing_down)
+    print(stat(7))
+    draw_snow()
+    map(0,0,map_pos,0,32,12)
+    spr(2, 16, player_pos,1,1,false,is_facing_down)
 end
