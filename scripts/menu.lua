@@ -1,6 +1,8 @@
-
-
-local title_y = 32
+local sprite_width = 72
+local sprite_height = 32
+local bounce_multiplier = 5
+local logo_y = 38
+local title_y = 55
 local selections = {
     "play",
     "highscore",
@@ -46,19 +48,15 @@ function draw_menu()
     cls(1)
     rect(0,0,127,127,7)
 
-    -- pal(14,8)
-    -- pal(5,13)
     draw_snow()
 
-    -- for _i=0, 60 do
-    --     local i = _i + t()
-    --     rect(0 + i,0 + i,127 - i,127 - i, i % 2)
-    -- end
+    local s_w = 8 + sprite_width + sin(t() * 0.55) * bounce_multiplier
+    local s_h = 8 + sprite_height + sin(t() * 0.55) * bounce_multiplier
 
-    spr(192, 30, title_y - 20, 9, 5)
-    -- outline_print(game_title, 64 - #game_title*4 / 2, title_y, 7, 5, 1)
-    -- rectfill(32,title_y+10,98,title_y+10,7)
-    -- rectfill(31,title_y+13,97,title_y+13,5)
+    local draw_x = 64 - s_w / 2
+    local draw_y = logo_y - s_h / 2
+
+    sspr(0, 96, 72, 32, draw_x, draw_y, s_w, s_h)
 
     print_center("by swagslash", title_y+14, 5)
     print_center("by swagslash", title_y+13, 7) -- shadow
