@@ -5,7 +5,8 @@ player = {
     y = 60,
     fall_direction = 1,  -- 1 down, -1 up
     can_toggle = false,
-    last_time_grounded = 0
+    last_time_grounded = 0,
+    is_dead = false
 }
 
 score = 0
@@ -27,9 +28,12 @@ map_level_height = 16 -- portion of the map to load
 -- draw offsets for the player and map to position it in the middle of the screen
 global_draw_offset_x = 0;
 global_draw_offset_y = 0;
+game_over_frames = 120
+
 
 -- this is basically _init
 function open_game()
+    game_over_frames = 120
     act_update = update_game
     act_draw = draw_game
 
@@ -44,12 +48,18 @@ function open_game()
     player.fall_direction = 1
     player.can_toggle = true
     player.last_time_grounded = t() - initial_fall_speed
+    player.is_dead = false
 
     score = 0
 end
 
 function update_game()
     update_snow()
+
+    if update_game_over() then
+        return
+    end
+
     -- scroll map to the left
     map_x_offset = map_x_offset - map_scroll_speed
 
@@ -62,9 +72,10 @@ end
 
 function draw_game()
     -- clear screen
-    cls()
+    cls(1)
     -- print fps
     print(stat(7))
+
     -- draw snow in background
     draw_snow()
     -- draw map
@@ -72,13 +83,16 @@ function draw_game()
     -- draw player sprite
     local is_facing_down = player.fall_direction < 0
     local player_sprite = player.can_toggle and 3 or 4
+    player_sprite = not player.is_dead and player_sprite or 5
     spr(player_sprite, player.x + global_draw_offset_x, player.y + global_draw_offset_y, 1, 1, false, is_facing_down)
-    -- draw score
-    print('score ' .. score, 0, 120, 12)
-end
 
-function game_over()
-    open_game()
+    -- draw game over screen on top if dead
+    if (player.is_dead) then
+        draw_game_over()
+    else
+        -- draw score
+        print('score ' .. score, 0, 120, 12)
+    end
 end
 
 function toggle_gravity()
