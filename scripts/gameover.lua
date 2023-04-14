@@ -34,6 +34,6 @@ function draw_game_over()
     rect(19, 31, 32 + 64 + 13, 32 + 61, 12)
     rectfill(20, 32, 32 + 64 + 12, 32 + 60, 7)
     outline_print_center("game over", 40, 7, 1, 2)
-    print_center("score: "..score, 60)
+    print_center("you suck.", 60)
     print_center("press ❎ to try again", 80)
 end

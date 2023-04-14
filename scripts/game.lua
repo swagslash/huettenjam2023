@@ -1,6 +1,6 @@
 
 
-player_start_x = 3
+player_start_x = 12
 player_start_y = 64
 player = {
     x = player_start_x,
@@ -38,7 +38,7 @@ global_draw_offset_x = 0
 global_draw_offset_y = 0
 game_over_frames = 120
 
-level_finished_offset = 124 -- block offset when the level finishes
+level_finished_offset = 126 -- block offset when the level finishes
 level = 0
 final_level = 1
 
@@ -49,7 +49,8 @@ current_jump_buffer = 0 -- if >0: player pressed x
 function open_game(next_level)
     -- reload full map as collectibles get removed
     reload(0x1000, 0x1000, 0x2000)
-
+    -- fade out music
+    music(-1, 300)
     music(2)
 
     act_update = update_game
