@@ -4,9 +4,6 @@ function next_level()
     player.is_finished = true
 
     local current_lvl_score = lvl_scores[level + 1]
-    if current_lvl_score.current >= current_lvl_score.max then
-        score += 10
-    end
 
     if level >= final_level then
         placed = add_highscore(score)
@@ -15,8 +12,12 @@ end
 
 function update_level_finished()
     if player.is_finished then
+        local current_lvl_score = lvl_scores[level + 1]
 
         if btnp(❎) then
+            if current_lvl_score.current >= current_lvl_score.max then
+                current_lvl_score.current += 10
+            end
             if level >= final_level then
                 open_menu()
             else
