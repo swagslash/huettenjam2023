@@ -43,6 +43,9 @@ function collides_item ()
     c = item_collision[1]
     sfx(6)
     score = score + 1
+
+    lvl_scores[level + 1].current += 1
+
     mset(c.x, c.y, 0)
 
 end

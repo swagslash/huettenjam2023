@@ -4,6 +4,10 @@ end
 
 function update_level_finished()
     if player.is_finished then
+        local current_lvl_score = lvl_scores[level + 1]
+        if current_lvl_score.current >= current_lvl_score.max then
+            score += 10
+        end
         if btnp(❎) then
             if level >= final_level then
                 open_menu()
@@ -31,6 +35,12 @@ function draw_level_finished()
         print_center("return to menu", 83)
     else
         outline_print_center("level finished", 40, 7, 1, 2)
+        local current_lvl_score = lvl_scores[level + 1]
+        if current_lvl_score.current >= current_lvl_score.max then
+        -- if level == 0 and lvl1_score >= 24 then
+            outline_print_center("FULL PIZZA BONUS", 56, 7, 8, 1)
+            outline_print_center("+10", 64, 7, 8, 1)
+        end
         print_center("press ❎ to continue", 80)
     end
 end

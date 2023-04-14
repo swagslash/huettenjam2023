@@ -45,10 +45,6 @@ function open_game(next_level)
     act_draw = draw_game
 
     camera(0, 0)
-    snow = {}
-    for x = 1, 60 do
-        init_snowflake(x)
-    end
 
     player.x = player_start_x
     player.y = player_start_y
@@ -65,6 +61,9 @@ function open_game(next_level)
     if next_level == level then
         score = 0
     end
+    lvl_scores = {}
+    add(lvl_scores, { max = 24, current = 0})
+    add(lvl_scores, { max = 10, current = 0})
 
     level = next_level
 
@@ -120,8 +119,11 @@ function draw_game()
         draw_level_finished()
     else
         -- draw score
-        print('score ' .. score, 0, 120, 12)
-        print('level ' .. level + 1, 100, 120, 12)
+        rect(1, 118, 39, 126, 1)
+        rectfill(2, 119, 38, 125, 14)
+        print('score ' .. score, 3, 120, 1)
+        rectfill(76, 119, 125, 125, 14)
+        print('level ' .. level + 1, 90, 120, 1)
     end
     -- print(current_x)
         -- print fps

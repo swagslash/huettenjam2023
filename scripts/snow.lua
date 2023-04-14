@@ -1,4 +1,6 @@
 
+snow = {}
+
 function init_snowflake(x)
     drop={
         x = flr(rnd(128)),
