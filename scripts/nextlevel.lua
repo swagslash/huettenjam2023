@@ -6,6 +6,10 @@ function next_level()
     local current_lvl_score = lvl_scores[level + 1]
 
     if level >= final_level then
+        -- dirty hack for pizza bonus
+        if current_lvl_score.current >= current_lvl_score.max then
+            score += 10
+        end
         placed = add_highscore(score)
     end
 end
