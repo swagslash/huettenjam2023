@@ -34,12 +34,6 @@ function open_game()
     act_draw = draw_game
 
     camera(0, 0)
-
-    -- set black to not transparent
-    -- and caucasian male skin tone to transparent
-    palt(0, false)
-    palt(15, true)
-
     snow = {}
     for x = 1, 60 do
         init_snowflake(x)

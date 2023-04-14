@@ -31,19 +31,20 @@ function draw_menu()
     rect(0,0,127,127,7)
 
     -- TODO write cool sprites here instead of ugly text
-    outline_print(game_title, 64 - #game_title*4 / 2, title_y, 7, 5, 1)
-    rectfill(32,title_y+7,98,title_y+7,7)
-    rectfill(31,title_y+8,97,title_y+9,5)
+    spr(192, 30, title_y - 20, 9, 5)
+    -- outline_print(game_title, 64 - #game_title*4 / 2, title_y, 7, 5, 1)
+    -- rectfill(32,title_y+10,98,title_y+10,7)
+    -- rectfill(31,title_y+13,97,title_y+13,5)
 
     print_center("by swaglash", title_y+14, 5)
     print_center("by swagslash", title_y+13, 7) -- shadow
 
-    rectfill(76, 119, 125, 125, 8)
+    rectfill(76, 119, 125, 125, 14)
     print("huettenjam23", 78, 120, 0)
 
     draw_selection();
 
-    print("swagslash.io", 3, 120, 8)
+    print("swagslash.io", 3, 120, 14)
 end
 
 function draw_selection() 
