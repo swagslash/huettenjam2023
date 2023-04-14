@@ -8,6 +8,7 @@ __lua__
 #include scripts/main.lua
 #include scripts/menu.lua
 #include scripts/game.lua
+#include scripts/gameover.lua
 #include scripts/snow.lua
 #include scripts/utils.lua
 
