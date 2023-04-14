@@ -35,10 +35,14 @@ function collides_item ()
 
     -- check if already collided
     local item_collision = collides(positions, {item_flag})
-    for c in all(item_collision) do
-        score = score + 1
-        mset(c.x, c.y, 0)
+
+    if item_collision[1] == nil then
+        return
     end
+
+    c = item_collision[1]
+    score = score + 1
+    mset(c.x, c.y, 0)
 end
 
 function collides (positions, flags)

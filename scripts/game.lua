@@ -38,6 +38,9 @@ final_level = 1
 
 -- this is basically _init
 function open_game(next_level)
+    -- reload full map as collectibles get removed
+    reload(0x1000, 0x1000, 0x2000)
+
     act_update = update_game
     act_draw = draw_game
 
