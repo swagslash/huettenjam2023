@@ -14,7 +14,13 @@ player = {
 
 score = 0
 
-player_sprite = 2 -- index of the player-sprite
+player_sprite = 3 -- index of the drawn player sprite
+player_sprite_1 = 61 --3 -- index of the 1st player-sprite
+player_sprite_2 = 62 --24 -- index of the 2nd player-sprite
+player_sprite_falling = 4 -- index of falling player
+player_sprite_dead = 5 -- index of dead player
+player_animation_start = 7 -- frame the player animation sprite toggles
+player_animation_cnt = 0 -- counter for the player animation
 solid_flag = 1 -- flag of solid blocks
 deadly_flag = 2 -- flag of deadly blocks
 item_flag = 3 -- flag of collectible items
@@ -78,6 +84,7 @@ function update_game()
     update_snow()
 
     if update_game_over() then
+        move_dead_player()
         return
     end
 
@@ -106,6 +113,17 @@ function update_game()
     end
 
     move_player()
+
+    -- player animation
+    player_animation_cnt = player_animation_cnt + 1
+    if player_animation_cnt > player_animation_start then
+        player_animation_cnt = 0
+        if player_sprite == player_sprite_1 then
+            player_sprite = player_sprite_2
+        else
+            player_sprite = player_sprite_1
+        end
+    end
 end
 
 function draw_game()
@@ -119,9 +137,15 @@ function draw_game()
     map(0, map_y_offset, map_scroll_x_offset + global_draw_offset_x, global_draw_offset_y, 128, map_level_height)
     -- draw player sprite
     local is_facing_down = player.fall_direction < 0
-    local player_sprite = player.can_toggle and 3 or 4
-    player_sprite = not player.is_dead and player_sprite or 5
-    spr(player_sprite, player.x + global_draw_offset_x, player.y + global_draw_offset_y, 1, 1, false, is_facing_down)
+
+    if player.is_dead then
+        player_sprite_to_draw = player_sprite_dead
+    elseif not player.can_toggle then
+        player_sprite_to_draw = player_sprite_falling;
+    else
+        player_sprite_to_draw = player_sprite
+    end
+    spr(player_sprite_to_draw, player.x + global_draw_offset_x, player.y + global_draw_offset_y, 1, 1, false, is_facing_down)
 
     -- draw game over screen on top if dead
     if player.is_dead then
@@ -152,6 +176,17 @@ function toggle_gravity()
     player.can_toggle = false
 end
 
+function move_dead_player()
+    local time_falling = t() - player.last_time_grounded
+    -- h = 1/2 * gravity * time^2
+    local y_offset = 1 / 2 * gravity * time_falling * time_falling * player.fall_direction
+    local y_collision = collides_y(y_offset)
+
+    if not collides_with(y_collision, {solid_flag, deadly_flag}) then
+        player.y = player.y + y_offset
+    end
+end
+
 function move_player()
     local time_falling = t() - player.last_time_grounded
     -- h = 1/2 * gravity * time^2
@@ -163,6 +198,7 @@ function move_player()
         -- last time grounded set in toggle_gravity
         player.last_time_grounded = t() - initial_fall_speed
     elseif collides_with(y_collision, {deadly_flag}) then
+        player.x = player.x - 1
         game_over()
     else
         player.y = player.y + y_offset
@@ -172,6 +208,7 @@ function move_player()
 
     local x_collision = collides_x();
     if collides_with(x_collision, {solid_flag, deadly_flag}) then
+        player.x = player.x - 1
         game_over()
     end
 end
