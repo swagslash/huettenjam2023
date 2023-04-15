@@ -40,7 +40,7 @@ game_over_frames = 120
 
 level_finished_offset = 126 -- block offset when the level finishes
 level = 0
-final_level = 1
+final_level = 2
 
 max_jump = 5 -- frames the jump can register
 current_jump_buffer = 0 -- if >0: player pressed x
@@ -76,6 +76,7 @@ function open_game(next_level)
         lvl_scores = {}
         add(lvl_scores, { max = 24, current = 0})
         add(lvl_scores, { max = 22, current = 0})
+        add(lvl_scores, { max = 21, current = 0})
     else
         local sum = 0
         for i=1, level + 1 do
