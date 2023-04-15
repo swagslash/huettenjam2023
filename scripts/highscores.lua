@@ -55,12 +55,16 @@ end
 function add_highscore(score)
 	last_highscore = score
 	local placed = -1
+	local notfound = true
 	for i=1, #highscores do
 		local current_score = highscores[i]
 		if score > highscores[i] then
 			highscores[i] = score
 			score = current_score
-			placed = i
+			if notfound then
+				placed = i
+				notfound = false
+			end
 		end
 	end
 	save_highscore()
