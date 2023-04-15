@@ -6,6 +6,7 @@ local title_y = 55
 local selections = {
     "play",
     "highscore",
+    "credits"
 }
 local cur_sel = 1
 
@@ -27,19 +28,19 @@ function update_menu()
     if btnp(❎) then
         if cur_sel == 1 then
             open_game(-1)
-        end
-
-        if cur_sel == 2 then
+        elseif cur_sel == 2 then
             open_highscore()
+        elseif cur_sel == 3 then
+            open_credits()
         end
     end
     
     if btnp(⬆️) then
-        cur_sel = wrap_int(cur_sel, 1, 2, 1)
+        cur_sel = wrap_int(cur_sel, 1, 3, -1)
         sfx(9)
     end
     if btnp(⬇️) then
-        cur_sel = wrap_int(cur_sel, 1, 2, -1)
+        cur_sel = wrap_int(cur_sel, 1, 3, 1)
         sfx(9)
     end
 end

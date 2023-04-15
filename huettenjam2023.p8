@@ -12,6 +12,7 @@ __lua__
 #include scripts/nextlevel.lua
 #include scripts/snow.lua
 #include scripts/highscores.lua
+#include scripts/credits.lua
 #include scripts/utils.lua
 #include scripts/collision.lua
 
