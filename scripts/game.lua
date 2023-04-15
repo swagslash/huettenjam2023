@@ -195,6 +195,8 @@ function move_dead_player()
 
     if not collides_with(y_collision, {solid_flag, deadly_flag}) then
         player.y = player.y + y_offset
+    else
+        player.last_time_grounded = t()
     end
 end
 
